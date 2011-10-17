@@ -2,7 +2,7 @@ class OutOfBoundsError < Exception; end
 
 class TextBuffer
     def initialize
-        @lines = []
+        @lines = ['']
     end
 
     def write_line(line, text)

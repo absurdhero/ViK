@@ -7,7 +7,7 @@ begin
     gem.name = "vik"
     gem.summary = %Q{A text editor}
     gem.description = %Q{It is slower than vim and less featureful than emacs.}
-    gem.email = "brandon@raboof.net"
+    gem.email = "bbremen@gmail.com"
     gem.homepage = "http://github.com/absurdhero/vik"
     gem.authors = ["Brandon Bremen"]
     gem.add_development_dependency "mocha", '~> 0.9.5'

@@ -27,6 +27,14 @@ class CommandMode < EditorMode
             @editor.line_mode
         when 'i'
             @editor.insert_mode
+        when 'h'
+            @buffer.move_cursor_left(1)
+        when 'l'
+            @buffer.move_cursor_right(1)
+        when 'j'
+            @buffer.move_cursor_down_line(1)
+        when 'k'
+            @buffer.move_cursor_up_line(1)
         when 'q'
             abort "ended"
         end
