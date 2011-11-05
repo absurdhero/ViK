@@ -14,10 +14,6 @@ class TextBuffer
         @lines[line] = text
     end
 
-    def insert_line(line, text)
-        @lines.insert(line, text)
-    end
-
     def max_line
         return @lines.length - 1
     end
@@ -57,11 +53,11 @@ class TextBuffer
         return @lines[line].length
     end
 
-    def delete_line(line)
-        @lines.delete_at line
+    def insert_line(line, text)
+        @lines.insert(line, text)
     end
 
-#    def lines
-#       0..max_line.each { |lineno| yield @lines[lineno] }
-#    end
+    def delete_line(line)
+        @lines.delete_at(line)
+    end
 end

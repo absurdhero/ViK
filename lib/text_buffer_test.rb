@@ -1,4 +1,3 @@
-require 'test/unit/ui/console/testrunner'
 require 'test/unit'
 
 require 'text_buffer'
@@ -42,18 +41,18 @@ class TextBufferTests < Test::Unit::TestCase
 
     def test_error_when_writing_string_to_middle_of_empty_line
        b = TextBuffer.new
-       assert_raise(OutOfBoundsError) { b.write_str(0, 10, 'foo') }
+       assert_raise(OutOfBoundsError) { b.write_str(2, 10, 'foo') }
     end
 
     def test_error_when_writing_string_off_of_line
        b = TextBuffer.new
        b.write_line 0, '0123456789'
-       assert_raise(OutOfBoundsError) { b.write_str(0, 11, 'foo') }
+       assert_raise(OutOfBoundsError) { b.write_str(2, 11, 'foo') }
     end
 
     def test_write_string_to_start_of_empty_line
        b = TextBuffer.new
-       assert_equal 'foo', b.write_str(0, 0, 'foo')
+       assert_equal 'foo', b.write_str(2, 0, 'foo')
     end
 
     def test_read_written_line
@@ -92,6 +91,3 @@ class TextBufferTests < Test::Unit::TestCase
         assert_equal 'bar', b.read_line(0)
     end
 end
-
-Test::Unit::UI::Console::TestRunner.run(TextBufferTests)
-
