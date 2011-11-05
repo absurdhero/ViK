@@ -16,8 +16,8 @@ class EditorMode
 end
 
 class CommandMode < EditorMode
-    def initialize(edit_state, display_buffer)
-        @buffer = display_buffer
+    def initialize(edit_state, buffer)
+        @buffer = buffer
         super(edit_state)
     end
 
@@ -58,8 +58,8 @@ class CommandMode < EditorMode
 end
 
 class InsertMode < EditorMode
-    def initialize(edit_state, display_buffer)
-        @buffer = display_buffer
+    def initialize(edit_state, buffer)
+        @buffer = buffer
         super(edit_state)
     end
 

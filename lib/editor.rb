@@ -1,13 +1,14 @@
 require 'modes'
 
 class Editor
-    require 'display_buffer'
+    require 'buffer_editor'
+    require 'viewport'
 
     def initialize(screen, text_buffer)
         @screen = screen
-        @text_buffer = text_buffer
-        display_buffer = DisplayBuffer.new(@screen, text_buffer)
-        @edit_state = EditState.new(display_buffer, @screen.status_bar)
+        buffer_editor = BufferEditor.new(text_buffer)
+        @viewport = Viewport.new(@screen, buffer_editor)
+        @edit_state = EditState.new(buffer_editor, @screen.status_bar)
     end
 
     def run
@@ -24,9 +25,9 @@ class Editor
 end
 
 class EditState
-    def initialize(display_buffer, status_bar)
-        @command_mode = CommandMode.new(self, display_buffer)
-        @insert_mode = InsertMode.new(self, display_buffer)
+    def initialize(buffer_editor, status_bar)
+        @command_mode = CommandMode.new(self, buffer_editor)
+        @insert_mode = InsertMode.new(self, buffer_editor)
         @line_mode = LineMode.new(self, status_bar)
         @current_mode = @command_mode
     end
