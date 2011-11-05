@@ -4,9 +4,8 @@ require 'optparse'
 
 def run(files)
   require 'screen'
-  require 'editor'
   require 'text_buffer'
-  require 'display_buffer'
+  require 'editor'
 
   screen = CursesScreen.new
 
@@ -14,18 +13,9 @@ def run(files)
   screen.refresh
 
   text = TextBuffer.new
-  display_buffer = DisplayBuffer.new(screen, text)
-  editor = Editor.new(display_buffer, screen.status_bar)
 
-  loop do
-      key = screen.get_key
-      screen.status_bar.right(key.to_s)
-      begin
-          editor.handle_key(key)
-      rescue QuitSignal
-          break
-      end
-  end
+  editor = Editor.new(screen, text)
+  editor.run
 end
 
 optparse = OptionParser.new do|opts|

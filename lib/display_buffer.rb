@@ -47,16 +47,6 @@ class DisplayBuffer
         move_line_bounded(-count)
     end
 
-    private
-
-    def render_line(lineno)
-        if lineno > @buffer.max_line
-            @screen.write('~')
-        elsif
-            @screen.write(@buffer.read_line(lineno))
-        end
-    end
-
     def move_column_bounded(count)
         pos = [[0, @col + count].max, @buffer.line_length(@line)-1].min
         @col = pos
@@ -67,5 +57,15 @@ class DisplayBuffer
         pos = [[0, @line + count].max, @buffer.max_line].min
         @line = pos
         @screen.set_cursor(@line, @col)
+    end
+
+    private
+
+    def render_line(lineno)
+        if lineno > @buffer.max_line
+            @screen.write('~')
+        elsif
+            @screen.write(@buffer.read_line(lineno))
+        end
     end
 end

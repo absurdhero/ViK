@@ -1,8 +1,8 @@
 class QuitSignal < Exception; end
 
 class EditorMode
-    def initialize(editor)
-        @editor = editor
+    def initialize(edit_state)
+        @edit_state = edit_state
     end
 
     def handle_key
@@ -16,40 +16,56 @@ class EditorMode
 end
 
 class CommandMode < EditorMode
-    def initialize(editor, display_buffer)
+    def initialize(edit_state, display_buffer)
         @buffer = display_buffer
-        super(editor)
+        super(edit_state)
     end
 
     def handle_key(key)
         case key
         when ':'
-            @editor.line_mode
+            @edit_state.line_mode
         when 'i'
-            @editor.insert_mode
+            @edit_state.insert_mode
         when 'h'
-            @buffer.move_cursor_left(1)
+            move_cursor_left
         when 'l'
-            @buffer.move_cursor_right(1)
+            move_cursor_right
         when 'j'
-            @buffer.move_cursor_down_line(1)
+            move_cursor_down_line
         when 'k'
-            @buffer.move_cursor_up_line(1)
+            move_cursor_up_line
         when 'q'
             abort "ended"
         end
     end
+
+    def move_cursor_left(count=1)
+        @buffer.move_column_bounded(-count)
+    end
+
+    def move_cursor_right(count=1)
+        @buffer.move_column_bounded(count)
+    end
+
+    def move_cursor_down_line(count=1)
+        @buffer.move_line_bounded(count)
+    end
+
+    def move_cursor_up_line(count=1)
+        @buffer.move_line_bounded(-count)
+    end
 end
 
 class InsertMode < EditorMode
-    def initialize(editor, display_buffer)
+    def initialize(edit_state, display_buffer)
         @buffer = display_buffer
-        super(editor)
+        super(edit_state)
     end
 
     def handle_key(key)
         if key == '^['
-            @editor.command_mode
+            @edit_state.command_mode
         else
             @buffer.insert(key)
         end
@@ -57,16 +73,16 @@ class InsertMode < EditorMode
 end
 
 class LineMode < EditorMode
-    def initialize(editor, status_bar)
+    def initialize(edit_state, status_bar)
         @text = ''
         @status_bar = status_bar
-        super(editor)
+        super(edit_state)
     end
     def handle_key(key)
         if key == '^M'
             interpret(@text)
             @text = ''
-            @editor.command_mode
+            @edit_state.command_mode
         else
             @text << key
             @status_bar.left(':' + @text)
