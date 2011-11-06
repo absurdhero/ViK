@@ -79,7 +79,7 @@ class LineMode < EditorMode
         super(edit_state)
     end
     def handle_key(key)
-        if key == '^M'
+        if ['^J', '^M'].include?(key)
             interpret(@text)
             @text = ''
             @edit_state.command_mode

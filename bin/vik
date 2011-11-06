@@ -3,7 +3,7 @@
 require 'optparse'
 
 def run(files)
-  require 'screen'
+  require 'screen_curses'
   require 'text_buffer'
   require 'editor'
 
